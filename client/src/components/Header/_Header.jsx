@@ -1,5 +1,8 @@
-import { Layout, Menu } from 'antd';
-import React from 'react';
+import { routerPatch } from "../../data/routertPuch";
+import { Layout, Menu } from "antd";
+import React from "react";
+import { Link } from "react-router-dom";
+
 const { Header } = Layout;
 
 const _Header = () => (
@@ -9,18 +12,20 @@ const _Header = () => (
       <Menu
         theme="dark"
         mode="horizontal"
-        defaultSelectedKeys={['2']}
-        items={new Array(3).fill(null).map((_, index) => {
-          const key = index + 1;
-          return {
-            key,
-            label: `nav ${key}`,
-          };
-        })}
+        defaultSelectedKeys={["1"]}
+        items={getItems(routerPatch)}
       />
     </Header>
-
   </Layout>
 );
 
 export default _Header;
+
+const getItems = (array) => {
+  if (!Array.isArray(array)) new Error("Data error for Menu items");
+
+  return array.map(({ id, name, patch = "/" }) => ({
+    key: id,
+    label: <Link to={patch}>{name} </Link>,
+  }));
+};
